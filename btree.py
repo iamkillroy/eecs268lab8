@@ -46,22 +46,24 @@ class BinaryTree:
             print("this is facts")
             return startNode
         elif startNodeEntryValue < nodeValue:
-            print("going right")
-            if startNode.has_branch("right"):
-                return self.search(nodeValue, startNode=startNode.get_branch("right"))
+            print("going left")
+            if startNode.has_branch("left"):
+                return self.search(nodeValue, startNode=startNode.get_branch("left"))
             else:
                 raise IndexError(f"Value {nodeValue} doesn't exist")
         elif startNodeEntryValue > nodeValue:
-            print(f"{startNodeEntryValue.number}going left")
-            if startNode.has_branch("left"):
-                return self.search(nodeValue, startNode=startNode.get_branch("left"))
+            print(f"{startNodeEntryValue.number}going right{startNode.get_branch('right')}")
+            if startNode.has_branch("right"):
+                return self.search(nodeValue, startNode=startNode.get_branch("right"))
             else:
                 raise IndexError(f"Value {nodeValue} doesn't exist")
             #todo check if we have a right branch
             #and if so go right
             #otherwise it doesn't exist
             #do the same for the left
-
+	def delete(self, indexNumber):
+		pokemonToDelete = self.search(indexNumber)
+		pokemonToDelete = 0
     def add(self, entry) -> None:
         """Adds to binary tree, allows skewed"""
         userEntryNode = BinaryNode(entry)
@@ -83,10 +85,10 @@ class BinaryTree:
                 previousBNode = currentBNode
                 #decide what direction we go into based on the size
                 #we're using integers for the first lab so this works
-                if currentBNode.get_entry() < userEntryNode.get_entry():
+                if currentBNode.get_entry() > userEntryNode.get_entry():
                     #right leaning >
                     currentBNode = currentBNode.get_branch("right")
-                elif currentBNode.get_entry() > userEntryNode.get_entry():
+                elif currentBNode.get_entry() < userEntryNode.get_entry():
                     currentBNode = currentBNode.get_branch("left") #lower value so left >
                 elif currentBNode.get_entry() == userEntryNode.get_entry():
                     raise Exception("Duplicates not allowed as per the rule of Rex Noster Gibbons. Long live the king!!!")
