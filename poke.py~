@@ -12,25 +12,13 @@ class Pokemon:
         elif type(other) == type(1):
             return self.number >= other
     def __le__(self, other):
-        if type(other) == type(self):
-                return self.number <= other.number
-        elif type(other) == type(1):
-            return self.number <= other
+        return self.number <= other.number
     def __gt__(self, other):
-        if type(other) == type(self):
-            return self.number > other.number
-        elif type(other) == type(1):
-            return self.number > other
+        return self.number > other.number
     def __lt__(self, other):
-        if type(other) == type(self):
-                return self.number < other.number
-        elif type(other) == type(1):
-            return self.number < other
+        return self.number < other.number
     def __eq__(self, other):
-        if type(other) == type(self):
-                return self.number == other.number
-        if type(other) == type(1):
-                return self.number == other
+        return self.number == other.number
 class Pokedex:
     def __init__(self, fileName: str) -> None:
         """Creates a Pokedex"""
