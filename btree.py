@@ -1,14 +1,19 @@
 
 class BinaryNode:
     def __init__(self, entry):
+        """A parental binary node with lots of features"""
         self._right = None
         self._left = None
         self._entry = entry
+        self._dad = None
     def is_leaf(self):
+        """Checks if the Binary Node is a leaf, or haw no parents"""
         if self._right== None and self._left == None: return True
         else: return False
     def get_entry(self):
         return self._entry
+    def branch_count(self):
+        return int(self.get_branch("left")) + int(self.get_branch("right")) #cute cs girl forgive me
     def has_branch(self, branchDirection: str):
         if branchDirection == "left" and self._left != None:
             return True
@@ -37,40 +42,53 @@ class BinaryTree:
         self.inOrder = "in"
         self.postOrder = "post"
         self.deepest = 0
-    def search(self, nodeValue: int, startNode=None, found=False):
+    def delete(self, value):
+        kiddieNode = self.__recursive_search(value)
+        daddyNode = self.__recursive_search(value)._dad
+        sideOfKiddieNode = "left" if daddyNode.get_branch("left") is kiddieNode else "right"
+        if kiddieNode.is_leaf():
+            daddyNode.set_branch(sideOfKiddieNode, None)
+        elif kiddieNode.branch_count() == 1:
+            #we have at least one branch
+            # but only one new kid that's getting
+            # replaced with a newer baby node
+            # let's check with
+            if kiddieNode.has_branch("left"):
+                daddyNode.set_branch("left", kiddieNode.get_branch("left"))
+
+            if kiddieNode.has_branch("right"):
+                daddyNode.set_branch("right", kiddieNode.get_branch("right"))
+        else: #so we have two branches and it's not as easy
+            pass #todo figure this out
+    def search(self, nodeValue: int, startNode = None):
+        return self.__recursive_search(nodeValue, startNode).get_entry()
+    def __recursive_search(self, nodeValue: int, startNode=None, found=False, returnBNode=False) -> BinaryNode:
         if startNode == None:
             startNode = self._adam
-        startNodeEntryValue = startNode.get_entry() 
-        print(f"hey! we're at {startNodeEntryValue.number}")
+        startNodeEntryValue = startNode.get_entry()
         if startNodeEntryValue == nodeValue:
-            print("this is facts")
             return startNode
         elif startNodeEntryValue < nodeValue:
-            print("going left")
             if startNode.has_branch("left"):
-                return self.search(nodeValue, startNode=startNode.get_branch("left"))
+                return self.__recursive_search(nodeValue, startNode=startNode.get_branch("left"))
             else:
                 raise IndexError(f"Value {nodeValue} doesn't exist")
         elif startNodeEntryValue > nodeValue:
-            print(f"{startNodeEntryValue.number}going right{startNode.get_branch('right')}")
             if startNode.has_branch("right"):
-                return self.search(nodeValue, startNode=startNode.get_branch("right"))
+                return self.__recursive_search(nodeValue, startNode=startNode.get_branch("right"))
             else:
                 raise IndexError(f"Value {nodeValue} doesn't exist")
             #todo check if we have a right branch
             #and if so go right
             #otherwise it doesn't exist
             #do the same for the left
-	def delete(self, indexNumber):
-		pokemonToDelete = self.search(indexNumber)
-		pokemonToDelete = 0
     def add(self, entry) -> None:
         """Adds to binary tree, allows skewed"""
         userEntryNode = BinaryNode(entry)
         if self._adam == None:
             self._adam = userEntryNode
             return None
-        else: 
+        else:
             #okay now we have to check the value of the node accessed
             #maybe you guys want me to do this recursively but i don't
             #like (n * n!) O time (especially in Python) so we're looping
@@ -96,16 +114,18 @@ class BinaryTree:
                 deepestInFunction += 1 #we've finished one layer so far
             #we've broken out of the loop!!!
             #now we know that the result of the currentNode is undefined
-            #so we wanna go back and see what branch (left, right) we should 
+            #so we wanna go back and see what branch (left, right) we should
             #put the previous node                |------> None (currentNode maybe)
             # so we're here --->      previousNode|
             #                                     |-------> None (currentNode maybe)
             if previousBNode.get_entry() >= userEntryNode.get_entry(): #if it's right go right
+                userEntryNode._dad = previousBNode
                 previousBNode.set_branch("right", userEntryNode)
             else: #if it's left go left
+                userEntryNode._dad = previousBNode
                 previousBNode.set_branch("left", userEntryNode)
             return None
-    
+
     def getAllNodesInTree(self, startNode: BinaryNode, binaryNodeList: list, levelBNL: int) -> list:
         if startNode == None:
             return [] #there's no left or right side return empty list
@@ -138,14 +158,12 @@ class BinaryTree:
                     for rightLANode in rightLevelArray:
                         print("(" + str(rightLANode.get_entry()) + ")", end="")
             case self.inOrder:
-                print("Left Nodes:", end="")                
+                print("Left Nodes:", end="")
                 for leftLevelArray in listOfLeftNodes:
                     for leftLANode in leftLevelArray:
                         print("(" + str(leftLANode.get_entry()) + ")", end="")
-                print("Center: " + str(self._adam.get_entry()))               
-                print("\nRight Nodes:", end="")             
+                print("Center: " + str(self._adam.get_entry()))
+                print("\nRight Nodes:", end="")
                 for rightLevelArray in listOfRightNodes:
                     for rightLANode in rightLevelArray:
                         print("(" + str(rightLANode.get_entry()) + ")", end="")
-
-
