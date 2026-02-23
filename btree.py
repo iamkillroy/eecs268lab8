@@ -17,7 +17,7 @@ class BinaryNode:
         """Returns the amount of branches the node has (0-2("""
         #sets true as an int and counts from getting branch on both
         # left and right
-        return int(self.get_branch("left")) + int(self.get_branch("right")) #cute cs girl forgive me
+        return int(self.has_branch("left")) + int(self.has_branch("right")) #cute cs girl forgive me
     def has_branch(self, branchDirection: str):
         """checks is the binary node either has right and left"""
         if branchDirection == "left" and self._left != None:
@@ -197,22 +197,22 @@ class BinaryTree:
         listOfRightNodes = [a for a in rightList]
         match sortMethod:
             case self.preOrder:
-                print("Center: " + str(self._adam.get_entry()))
+                print("Center: " + str(self._adam.get_entry().americanName))
                 print("Left Nodes:", end="")
                 for leftLevelArray in listOfLeftNodes:
                     for leftLANode in leftLevelArray:
-                        print("(" + str(leftLANode.get_entry()) + ")", end="")
+                        print("(" + str(leftLANode.get_entry().americanName) + ")", end="")
                 print("\nRight Nodes:", end="")
                 for rightLevelArray in listOfRightNodes:
                     for rightLANode in rightLevelArray:
-                        print("(" + str(rightLANode.get_entry()) + ")", end="")
+                        print("(" + str(rightLANode.get_entry().americanName) + ")", end="")
             case self.inOrder:
                 print("Left Nodes:", end="")
                 for leftLevelArray in listOfLeftNodes:
                     for leftLANode in leftLevelArray:
-                        print("(" + str(leftLANode.get_entry()) + ")", end="")
-                print("Center: " + str(self._adam.get_entry()))
+                        print("(" + str(leftLANode.get_entry().americanName) + ")", end="")
+                print("Center: " + str(self._adam.get_entry().americanName))
                 print("\nRight Nodes:", end="")
                 for rightLevelArray in listOfRightNodes:
                     for rightLANode in rightLevelArray:
-                        print("(" + str(rightLANode.get_entry()) + ")", end="")
+                        print("(" + str(rightLANode.get_entry().americanName) + ")", end="")
