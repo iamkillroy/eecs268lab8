@@ -36,11 +36,10 @@ class Pokedex:
         """Creates a Pokedex"""
         self.binaryTree = btree.BinaryTree()
         self.fileText = open(fileName, "r").read()
-        
+
         for line in self.fileText.split("\n"):
             if len(line) == 0: continue
             tabSplitLine = line.split("\t")
 
             newPokemon = Pokemon(number=int(tabSplitLine[1]), americanName=tabSplitLine[0], japanName = tabSplitLine[2])
             self.binaryTree.add(newPokemon)
-
