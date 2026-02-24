@@ -92,7 +92,8 @@ class BinaryTree:
            highestValueInSucessorNodeTree = kiddieNode #so that we can set the right
            #branch if there's a depth of zeero
            while successorNode.has_branch("right"): #while we're not at the rightmost (highest) left value
-               highestValueInSucessorNodeTree = kiddieNode.get_branch("right")
+               successorNode = successorNode.get_branch("right")
+           highestValueInSucessorNodeTree = successorNode
            highestValueInSucessorNodeTree.set_branch("right", kiddieNode.get_branch("right")) #set the next right value to the kiddie node
            #this above here will preserve the hierarchy by setting the next value to the highest
            # on the branch tree and preserve order
