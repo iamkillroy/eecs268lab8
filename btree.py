@@ -33,7 +33,7 @@ class BinaryNode:
         elif branchDirection == "right": #if we're right
             return self._right
         else:
-            raise Exception("Cannot get nonexistant branch {branchDirection}")
+            return None
     def set_branch(self, branchDirection: str, node):
         """Sets the value of the branch to the node"""
         if branchDirection == "left":
@@ -54,7 +54,10 @@ class BinaryTree:
     def delete(self, value):
         """Deletes an element off of the binary tree by accessing her parent"""
         kiddieNode = self.__recursive_search(value) #get the initial value
-        daddyNode = self.__recursive_search(value)._dad #get the other part
+        if kiddieNode is None:
+            raise RuntimeError(f"No element with ID {value}")
+        else:
+            daddyNode = kiddieNode._dad
         #get the kiddieNode's branch so we can check it later
         sideOfKiddieNode = "left" if daddyNode.get_branch("left") is kiddieNode else "right"
         if kiddieNode.is_leaf():
@@ -64,11 +67,8 @@ class BinaryTree:
             # but only one new kid that's getting
             # replaced with a newer baby node
             # let's check with
-            if kiddieNode.has_branch("left"):
-                daddyNode.set_branch("left", kiddieNode.get_branch("left"))
-
-            if kiddieNode.has_branch("right"):
-                daddyNode.set_branch("right", kiddieNode.get_branch("right"))
+            child = kiddieNode.get_branch("left") or kiddieNode.get_branch("right")
+            daddyNode.set_branch(sideOfKiddieNode, child)
         else: #so we have two branches and it's not as easy
            #okay imagine we have
            #       6
